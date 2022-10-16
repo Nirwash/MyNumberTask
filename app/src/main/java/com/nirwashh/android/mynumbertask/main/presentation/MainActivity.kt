@@ -1,7 +1,7 @@
 package com.nirwashh.android.mynumbertask.main.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.nirwashh.android.mynumbertask.R
 import com.nirwashh.android.mynumbertask.numbers.presentation.NumbersFragment
