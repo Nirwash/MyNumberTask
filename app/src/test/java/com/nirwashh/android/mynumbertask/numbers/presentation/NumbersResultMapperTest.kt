@@ -8,7 +8,7 @@ import org.junit.Test
 class NumbersResultMapperTest : BaseTest() {
 
     @Test
-    fun test_error() {
+    fun `test error`() {
         val communications = TestNumbersCommunications()
         val mapper = NumbersResultMapper(communications, NumberUiMapper())
 
@@ -19,7 +19,7 @@ class NumbersResultMapperTest : BaseTest() {
 
 
     @Test
-    fun test_success_empty_list() {
+    fun `test success empty list`() {
         val communications = TestNumbersCommunications()
         val mapper = NumbersResultMapper(communications, NumberUiMapper())
 
@@ -30,7 +30,7 @@ class NumbersResultMapperTest : BaseTest() {
     }
 
     @Test
-    fun test_success_no_empty_list() {
+    fun `test success no empty list`() {
         val communications = TestNumbersCommunications()
         val mapper = NumbersResultMapper(communications, NumberUiMapper())
 
