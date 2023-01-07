@@ -1,4 +1,4 @@
-package com.nirwashh.android.mynumbertask.numbers.data
+package com.nirwashh.android.mynumbertask.numbers.data.cloud
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

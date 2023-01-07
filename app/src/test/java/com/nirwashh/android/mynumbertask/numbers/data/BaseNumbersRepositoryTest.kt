@@ -1,5 +1,7 @@
 package com.nirwashh.android.mynumbertask.numbers.data
 
+import com.nirwashh.android.mynumbertask.numbers.data.cache.NumbersCacheDataSource
+import com.nirwashh.android.mynumbertask.numbers.data.cloud.NumbersCloudDataSource
 import com.nirwashh.android.mynumbertask.numbers.domain.NoInternetConnectionException
 import com.nirwashh.android.mynumbertask.numbers.domain.NumberFact
 import com.nirwashh.android.mynumbertask.numbers.domain.NumbersRepository
