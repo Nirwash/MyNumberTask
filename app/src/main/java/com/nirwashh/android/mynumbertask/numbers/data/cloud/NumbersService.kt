@@ -1,4 +1,4 @@
-package com.nirwashh.android.mynumbertask.numbers.data
+package com.nirwashh.android.mynumbertask.numbers.data.cloud
 
 import retrofit2.Response
 import retrofit2.http.GET

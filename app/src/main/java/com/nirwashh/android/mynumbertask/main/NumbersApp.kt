@@ -2,7 +2,7 @@ package com.nirwashh.android.mynumbertask.main
 
 import android.app.Application
 import com.nirwashh.android.mynumbertask.BuildConfig
-import com.nirwashh.android.mynumbertask.numbers.data.CloudModule
+import com.nirwashh.android.mynumbertask.numbers.data.cloud.CloudModule
 
 
 class NumbersApp : Application() {

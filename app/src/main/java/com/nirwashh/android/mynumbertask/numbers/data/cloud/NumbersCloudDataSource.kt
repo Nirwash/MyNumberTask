@@ -1,4 +1,7 @@
-package com.nirwashh.android.mynumbertask.numbers.data
+package com.nirwashh.android.mynumbertask.numbers.data.cloud
+
+import com.nirwashh.android.mynumbertask.numbers.data.NumberData
+import com.nirwashh.android.mynumbertask.numbers.data.cache.FetchNumber
 
 interface NumbersCloudDataSource : FetchNumber {
 
