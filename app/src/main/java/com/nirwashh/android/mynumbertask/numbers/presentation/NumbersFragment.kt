@@ -8,20 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.nirwashh.android.mynumbertask.R
 import com.nirwashh.android.mynumbertask.databinding.FragmentNumbersBinding
 import com.nirwashh.android.mynumbertask.details.presentation.DetailsFragment
 import com.nirwashh.android.mynumbertask.main.presentation.ShowFragment
+import com.nirwashh.android.mynumbertask.main.sl.ProvideViewModel
 
 class NumbersFragment : Fragment() {
     private var _binding: FragmentNumbersBinding? = null
     private val binding get() = _binding!!
     private var showFragment: ShowFragment = ShowFragment.Empty()
-    private lateinit var viewModel: NumbersViewModel //todo init viewModel
+    private lateinit var viewModel: NumbersViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         showFragment = context as ShowFragment
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = (requireActivity() as ProvideViewModel).provideViewModel(
+            NumbersViewModel::class.java,
+            this
+        )
     }
 
     override fun onCreateView(
@@ -37,9 +45,10 @@ class NumbersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = NumbersAdapter(object : ClickListener {
             override fun click(item: NumberUi) {
-                TODO("Not yet implemented")
-                //    val detailsFragment = DetailsFragment.newInstance("text")
-                //    showFragment.show(detailsFragment)
+                val mapper = DetailUi()
+                val text = item.map(mapper)
+                val detailsFragment = DetailsFragment.newInstance(text)
+                showFragment.show(detailsFragment)
             }
         })
         binding.historyRecyclerView.adapter = adapter
@@ -68,7 +77,7 @@ class NumbersFragment : Fragment() {
         }
 
         viewModel.observeProgress(this) {
-            binding.progressBar.visibility = it
+            binding.backgroundSheet.visibility = it
         }
         viewModel.init(savedInstanceState == null)
 
