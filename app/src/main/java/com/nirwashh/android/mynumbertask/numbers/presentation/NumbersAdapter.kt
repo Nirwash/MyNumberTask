@@ -3,9 +3,9 @@ package com.nirwashh.android.mynumbertask.numbers.presentation
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.nirwashh.android.mynumbertask.numbers.presentation.NumbersAdapter.NumbersViewHolder
 import androidx.recyclerview.widget.RecyclerView
 import com.nirwashh.android.mynumbertask.databinding.NumberLayoutBinding
+import com.nirwashh.android.mynumbertask.numbers.presentation.NumbersAdapter.NumbersViewHolder
 
 class NumbersAdapter(private val clickListener: ClickListener) :
     RecyclerView.Adapter<NumbersViewHolder>(), Mapper.Unit<List<NumberUi>> {
@@ -13,13 +13,14 @@ class NumbersAdapter(private val clickListener: ClickListener) :
     private val list = mutableListOf<NumberUi>()
 
     inner class NumbersViewHolder(
-        private val binding: NumberLayoutBinding,
+        binding: NumberLayoutBinding,
         private val clickListener: ClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private val title = binding.titleTextView
         private val subTitle = binding.subTitleTextView
+        private val mapper = ListItemUi(title, subTitle)
         fun bind(model: NumberUi) {
-            model.map(title, subTitle)
+            model.map(mapper)
             itemView.setOnClickListener {
                 clickListener.click(model)
             }
