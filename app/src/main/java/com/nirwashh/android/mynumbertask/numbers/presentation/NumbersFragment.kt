@@ -18,6 +18,9 @@ class NumbersFragment : Fragment() {
     private val binding get() = _binding!!
     private var showFragment: ShowFragment = ShowFragment.Empty()
     private lateinit var viewModel: NumbersViewModel
+    private val watcher = object : SimpleTextWatcher() {
+        override fun afterTextChanged(s: Editable?) = viewModel.clearError()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,13 +56,6 @@ class NumbersFragment : Fragment() {
         })
         binding.historyRecyclerView.adapter = adapter
 
-        binding.editText.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                super.afterTextChanged(s)
-                viewModel.clearError()
-            }
-        })
-
         binding.getFactButton.setOnClickListener {
             val number = binding.editText.text.toString()
             viewModel.fetchNumberFact(number)
@@ -81,6 +77,16 @@ class NumbersFragment : Fragment() {
         }
         viewModel.init(savedInstanceState == null)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.editText.addTextChangedListener(watcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.editText.removeTextChangedListener(watcher)
     }
 
 
