@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.nirwashh.android.mynumbertask.BuildConfig
 
 
 class NumbersApp : Application(), ProvideViewModel {
@@ -16,7 +17,7 @@ class NumbersApp : Application(), ProvideViewModel {
                 DependencyContainer.Base(
                     Core.Base(
                         this,
-                        isRelease = true/*!BuildConfig.DEBUG*/
+                        isRelease = !BuildConfig.DEBUG
                     )
                 )
             )

@@ -21,9 +21,9 @@ interface Core : CloudModule, CacheModule, ManageResources {
         }
         private val cloudModule by lazy {
             if (isRelease)
-                CloudModule.Release()
+                CloudModule.Base()
             else
-                CloudModule.Debug()
+                CloudModule.Mock()
         }
 
         private val cacheModule by lazy {
