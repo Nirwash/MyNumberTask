@@ -12,12 +12,16 @@ class NumbersApp : Application(), ProvideViewModel {
 
     override fun onCreate() {
         super.onCreate()
+        val provideInstances = if (BuildConfig.DEBUG)
+            ProvideInstances.Mock(this)
+        else
+            ProvideInstances.Release(this)
         viewModelsFactory =
             ViewModelsFactory(
                 DependencyContainer.Base(
                     Core.Base(
                         this,
-                        isRelease = !BuildConfig.DEBUG
+                        provideInstances
                     )
                 )
             )
