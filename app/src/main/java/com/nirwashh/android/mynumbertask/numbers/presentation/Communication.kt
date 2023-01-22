@@ -3,6 +3,7 @@ package com.nirwashh.android.mynumbertask.numbers.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.nirwashh.android.mynumbertask.main.presentation.SingleLiveEvent
 
 interface Communication {
 
@@ -34,6 +35,9 @@ interface Communication {
     ) : Abstract<T>(liveData) {
         override fun map(source: T) = liveData.postValue(source)
     }
+
+    abstract class SingleUi<T> : Ui<T>(SingleLiveEvent())
+    abstract class SinglePost<T> : Post<T>(SingleLiveEvent())
 
 
 }

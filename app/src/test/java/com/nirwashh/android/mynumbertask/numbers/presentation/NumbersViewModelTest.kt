@@ -1,6 +1,7 @@
 package com.nirwashh.android.mynumbertask.numbers.presentation
 
 import android.view.View
+import com.nirwashh.android.mynumbertask.main.presentation.NavigationStrategy
 import com.nirwashh.android.mynumbertask.numbers.domain.NumberFact
 import com.nirwashh.android.mynumbertask.numbers.domain.NumberUiMapper
 import com.nirwashh.android.mynumbertask.numbers.domain.NumbersInteractor
@@ -20,6 +21,8 @@ class NumbersViewModelTest : BaseTest() {
     private lateinit var interactor: TestNumbersInteractor
     private lateinit var viewModel: NumbersViewModel
     private lateinit var handleNumbersRequest: HandleNumbersRequest
+    private lateinit var navigationCommunication: TestNavigationCommunication
+    private lateinit var detailsMapper: NumberUi.Mapper<String>
 
 
     @Before
@@ -32,11 +35,16 @@ class NumbersViewModelTest : BaseTest() {
             NumbersResultMapper(communications, NumberUiMapper())
         )
         interactor = TestNumbersInteractor()
-        viewModel = NumbersViewModel(
+        navigationCommunication = TestNavigationCommunication()
+        detailsMapper = TestUiMapper()
+
+        viewModel = NumbersViewModel.Base(
             handleNumbersRequest,
             manageResources,
             communications,
-            interactor
+            interactor,
+            navigationCommunication,
+            detailsMapper
         )
     }
 
@@ -134,6 +142,16 @@ class NumbersViewModelTest : BaseTest() {
 
     }
 
+    @Test
+    fun `test navigation details`() {
+        viewModel.showDetails(NumberUi("0", "fact"))
+
+        assertEquals("0 fact", interactor.details)
+        assertEquals(1, navigationCommunication.count)
+        assertEquals(true, navigationCommunication.strategy is NavigationStrategy.Add)
+    }
+
+
     private class TestManageResources : ManageResources {
         private var string = ""
         fun makeExpectedAnswer(expected: String) {
@@ -148,8 +166,15 @@ class NumbersViewModelTest : BaseTest() {
         val initCalledList = mutableListOf<NumbersResult>()
         val fetchAboutNumberCalledList = mutableListOf<NumbersResult>()
         val fetchAboutRandomNumberCalledList = mutableListOf<NumbersResult>()
+
+        var details = ""
+
         fun changeExpectedResult(newResult: NumbersResult) {
             result = newResult
+        }
+
+        override fun saveDetails(details: String) {
+            this.details = details
         }
 
         override suspend fun init(): NumbersResult {
@@ -173,4 +198,10 @@ class NumbersViewModelTest : BaseTest() {
         override fun io(): CoroutineDispatcher = TestCoroutineDispatcher()
         override fun ui(): CoroutineDispatcher = TestCoroutineDispatcher()
     }
+
+    private class TestUiMapper : NumberUi.Mapper<String> {
+        override fun map(id: String, fact: String) = "$id $fact"
+    }
 }
+
+

@@ -1,9 +1,9 @@
 package com.nirwashh.android.mynumbertask.numbers.domain
 
+import com.nirwashh.android.mynumbertask.details.data.NumberDetails
 import com.nirwashh.android.mynumbertask.numbers.presentation.ManageResources
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -19,7 +19,9 @@ class NumbersInteractorTest {
         manageResources = TestManageResources()
         interactor = NumbersInteractor.Base(
             repository,
-            HandleRequest.Base(repository, HandleError.Base(manageResources)))
+            HandleRequest.Base(repository, HandleError.Base(manageResources)),
+            NumberDetails.Base()
+        )
     }
 
     @Test

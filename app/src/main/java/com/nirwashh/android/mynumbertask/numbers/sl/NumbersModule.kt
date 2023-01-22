@@ -16,8 +16,8 @@ import com.nirwashh.android.mynumbertask.numbers.domain.NumberUiMapper
 import com.nirwashh.android.mynumbertask.numbers.domain.NumbersInteractor
 import com.nirwashh.android.mynumbertask.numbers.presentation.*
 
-class NumbersModule(private val core: Core) : Module<NumbersViewModel> {
-    override fun viewModel(): NumbersViewModel {
+class NumbersModule(private val core: Core) : Module<NumbersViewModel.Base> {
+    override fun viewModel(): NumbersViewModel.Base {
         val communications = NumbersCommunications.Base(
             progress = ProgressCommunication.Base(),
             state = NumbersStateCommunication.Base(),
@@ -52,13 +52,16 @@ class NumbersModule(private val core: Core) : Module<NumbersViewModel> {
         )
         val interactor = NumbersInteractor.Base(
             repository = repository,
-            handleRequest = handleRequest
+            handleRequest = handleRequest,
+            numberDetails = core.provideNumberDetails()
         )
-        return NumbersViewModel(
+        return NumbersViewModel.Base(
             handleResult = handleResult,
             manageResources = core,
             communications = communications,
-            interactor = interactor
+            interactor = interactor,
+            navigationCommunication = core.provideNavigation(),
+            detailsMapper = DetailUi()
         )
     }
 }
