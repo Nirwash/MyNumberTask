@@ -7,9 +7,10 @@ import com.nirwashh.android.mynumbertask.numbers.data.cache.CacheModule
 import com.nirwashh.android.mynumbertask.numbers.data.cloud.CloudModule
 import com.nirwashh.android.mynumbertask.numbers.presentation.DispatchersList
 import com.nirwashh.android.mynumbertask.numbers.presentation.ManageResources
+import com.nirwashh.android.mynumbertask.random.WorkManagerWrapper
 
 interface Core : CloudModule, CacheModule, ManageResources, ProvideNavigation,
-    ProvideNumberDetails {
+    ProvideNumberDetails, ProvideWorkManagerWrapper {
 
     fun provideDispatchers(): DispatchersList
 
@@ -17,6 +18,7 @@ interface Core : CloudModule, CacheModule, ManageResources, ProvideNavigation,
         context: Context,
         private val provideInstances: ProvideInstances
     ) : Core {
+        private val workManagerWrapper = WorkManagerWrapper.Base(context)
         private val manageResources = ManageResources.Base(context)
         private val dispatchersList by lazy {
             DispatchersList.Base()
@@ -43,8 +45,14 @@ interface Core : CloudModule, CacheModule, ManageResources, ProvideNavigation,
 
         override fun provideNumberDetails() = numberDetails
 
+        override fun provideWorkManagerWrapper() = workManagerWrapper
+
         override fun provideDispatchers() = dispatchersList
     }
+}
+
+interface ProvideWorkManagerWrapper {
+    fun provideWorkManagerWrapper(): WorkManagerWrapper
 }
 
 interface ProvideNavigation {
