@@ -1,19 +1,10 @@
 package com.nirwashh.android.mynumbertask
 
-import androidx.test.espresso.Espresso.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nirwashh.android.mynumbertask.main.presentation.MainActivity
-import org.junit.Rule
+import androidx.test.espresso.Espresso.pressBack
 import org.junit.Test
-import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4::class)
-class NavigationClass : BaseTest() {
-
-    @get: Rule
-    var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+class NavigationClassTest : BaseTest() {
 
     @Test
     fun navigation_test() {
