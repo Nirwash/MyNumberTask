@@ -2,6 +2,7 @@ package com.nirwashh.android.mynumbertask.numbers.presentation
 
 import android.view.View
 import com.nirwashh.android.mynumbertask.main.presentation.NavigationStrategy
+import com.nirwashh.android.mynumbertask.main.presentation.Screen
 import com.nirwashh.android.mynumbertask.numbers.domain.NumberFact
 import com.nirwashh.android.mynumbertask.numbers.domain.NumberUiMapper
 import com.nirwashh.android.mynumbertask.numbers.domain.NumbersInteractor
@@ -148,7 +149,7 @@ class NumbersViewModelTest : BaseTest() {
 
         assertEquals("0 fact", interactor.details)
         assertEquals(1, navigationCommunication.count)
-        assertEquals(true, navigationCommunication.strategy is NavigationStrategy.Add)
+        assertEquals(NavigationStrategy.Add(Screen.Details), navigationCommunication.strategy)
     }
 
 

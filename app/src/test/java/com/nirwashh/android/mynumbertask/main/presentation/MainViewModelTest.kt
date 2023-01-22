@@ -19,7 +19,7 @@ class MainViewModelTest : BaseTest() {
     fun `test navigation at start`() {
         viewModel.init(true)
         assertEquals(1, navigationCommunication.count)
-        assertEquals(true, navigationCommunication.strategy is NavigationStrategy.Replace)
+        assertEquals(NavigationStrategy.Replace(Screen.Numbers), navigationCommunication.strategy)
 
         viewModel.init(false)
         assertEquals(1, navigationCommunication.count)

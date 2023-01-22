@@ -5,10 +5,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nirwashh.android.mynumbertask.R
-import com.nirwashh.android.mynumbertask.details.presentation.NumberDetailsFragment
 import com.nirwashh.android.mynumbertask.main.presentation.Init
 import com.nirwashh.android.mynumbertask.main.presentation.NavigationCommunication
 import com.nirwashh.android.mynumbertask.main.presentation.NavigationStrategy
+import com.nirwashh.android.mynumbertask.main.presentation.Screen
 import com.nirwashh.android.mynumbertask.numbers.domain.NumbersInteractor
 
 interface NumbersViewModel : Init, FetchNumbers, ObserveNumbers, ClearError {
@@ -58,7 +58,7 @@ interface NumbersViewModel : Init, FetchNumbers, ObserveNumbers, ClearError {
 
         override fun showDetails(item: NumberUi) {
             interactor.saveDetails(item.map(detailsMapper))
-            navigationCommunication.map(NavigationStrategy.Add(NumberDetailsFragment()))
+            navigationCommunication.map(NavigationStrategy.Add(Screen.Details))
         }
     }
 }
