@@ -1,11 +1,6 @@
 package com.nirwashh.android.mynumbertask
 
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nirwashh.android.mynumbertask.main.presentation.MainActivity
@@ -14,46 +9,43 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class CheckItemReplacedTest {
+class CheckItemReplacedTest : BaseTest() {
 
     @get:Rule
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
+    private val numberOne = "1"
+    private val numberTwo = "2"
+    private val factOne = "fact about $numberOne"
+    private val factTwo = "fact about $numberTwo"
+    private val firstPosition = 0
+    private val secondPosition = 1
+
     @Test
-    fun test_history() {
-        onView(ViewMatchers.withId(R.id.editText)).perform(ViewActions.typeText("1"))
-        closeSoftKeyboard()
-        onView(ViewMatchers.withId(R.id.getFactButton)).perform(ViewActions.click())
+    fun test_history(): Unit = NumbersPage().run {
+        inputEditText.typeText(numberOne)
+        getFactButton.click()
+        recyclerView.run {
+            item(firstPosition, titleItem).checkText(numberOne)
+            item(firstPosition, subTitleItem).checkText(factOne)
+        }
 
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.titleTextView))
-            .check(matches(withText("1")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.subTitleTextView))
-            .check(matches(withText("fact about 1")))
+        inputEditText.typeText(numberTwo)
+        getFactButton.click()
+        recyclerView.run {
+            item(firstPosition, titleItem).checkText(numberTwo)
+            item(firstPosition, subTitleItem).checkText(factTwo)
+            item(secondPosition, titleItem).checkText(numberOne)
+            item(secondPosition, subTitleItem).checkText(factOne)
+        }
 
-        onView(ViewMatchers.withId(R.id.editText)).perform(ViewActions.typeText("2"))
-        closeSoftKeyboard()
-        onView(ViewMatchers.withId(R.id.getFactButton)).perform(ViewActions.click())
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.titleTextView))
-            .check(matches(withText("2")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.subTitleTextView))
-            .check(matches(withText("fact about 2")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(1, R.id.titleTextView))
-            .check(matches(withText("1")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(1, R.id.subTitleTextView))
-            .check(matches(withText("fact about 1")))
-
-        onView(ViewMatchers.withId(R.id.editText)).perform(ViewActions.typeText("1"))
-        closeSoftKeyboard()
-        onView(ViewMatchers.withId(R.id.getFactButton)).perform(ViewActions.click())
-
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.titleTextView))
-            .check(matches(withText("1")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(0, R.id.subTitleTextView))
-            .check(matches(withText("fact about 1")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(1, R.id.titleTextView))
-            .check(matches(withText("2")))
-        onView(RecyclerViewMatcher(R.id.historyRecyclerView).atPosition(1, R.id.subTitleTextView))
-            .check(matches(withText("fact about 2")))
-
+        inputEditText.typeText(numberOne)
+        getFactButton.click()
+        recyclerView.run {
+            item(firstPosition, titleItem).checkText(numberOne)
+            item(firstPosition, subTitleItem).checkText(factOne)
+            item(secondPosition, titleItem).checkText(numberTwo)
+            item(secondPosition, subTitleItem).checkText(factTwo)
+        }
     }
 }

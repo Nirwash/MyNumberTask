@@ -1,11 +1,6 @@
 package com.nirwashh.android.mynumbertask
 
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nirwashh.android.mynumbertask.main.presentation.MainActivity
@@ -15,31 +10,39 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class NavigationClass {
+class NavigationClass : BaseTest() {
 
     @get: Rule
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
     fun navigation_test() {
-        onView(withId(R.id.editText)).perform(typeText("10"))
-        closeSoftKeyboard()
-        onView(withId(R.id.getFactButton)).perform(click())
+        val numbersPage = NumbersPage()
+        val detailsPage = DetailsPage()
+        val number = "10"
+        val fact = "fact about 10"
+        val details = "\n$number\n\n$fact"
 
-        onView(withId(R.id.titleTextView)).check(matches(withText("10")))
-        onView(withId(R.id.subTitleTextView)).check(matches(withText("fact about 10")))
+        numbersPage.run {
+            inputEditText.typeText(number)
+            getFactButton.click()
+            recyclerView.run {
+                item(0, titleItem).checkText(number)
+                item(0, subTitleItem).checkText(fact)
+                item(0).click()
+            }
+        }
 
-        onView(withId(R.id.subTitleTextView)).perform(click())
-        onView(withId(R.id.detailsTextView)).check(
-            matches(
-                withText(
-                    "\n10\n\nfact about 10"
-                )
-            )
-        )
+        detailsPage.run {
+            detailsTextView.checkText(details)
+            pressBack()
+        }
 
-        pressBack()
-        onView(withId(R.id.titleTextView)).check(matches(withText("10")))
-        onView(withId(R.id.subTitleTextView)).check(matches(withText("fact about 10")))
+        numbersPage.run {
+            recyclerView.run {
+                item(0, titleItem).checkText(number)
+                item(0, subTitleItem).checkText(fact)
+            }
+        }
     }
 }
